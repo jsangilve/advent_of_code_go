@@ -14,8 +14,8 @@ func readFile(path string) []byte {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
-
 	return content
+
 }
 
 func convertToInteger(strExpenses []string) []int64 {
@@ -27,11 +27,15 @@ func convertToInteger(strExpenses []string) []int64 {
 	return expenses
 }
 
-// Part1 solution to Day1 part 1
-func Part1() int64 {
+func readExpenses() []int64 {
 	content := readFile("inputs/day1.txt")
 	expensesStr := strings.Split(string(content), "\n")
-	expenses := convertToInteger(expensesStr)
+	return convertToInteger(expensesStr)
+}
+
+// Part1 solution to Day1 part 1
+func Part1() int64 {
+	expenses := readExpenses()
 
 	for i, valueA := range expenses {
 		for j := i + 1; j < len(expenses); j++ {
@@ -44,5 +48,23 @@ func Part1() int64 {
 	}
 
 	return -1
+}
 
+// Part2 solution to Day 1 part 2
+func Part2() int64 {
+	expenses := readExpenses()
+
+	for i, valueA := range expenses {
+		for j := i + 1; j < len(expenses); j++ {
+			valueB := expenses[j]
+			for k := 0; k < len(expenses); k++ {
+				valueC := expenses[k]
+				if k != j && k != i && valueA+valueB+valueC == 2020 {
+					fmt.Println(k, valueA, valueB, valueC)
+					return valueA * valueB * valueC
+				}
+			}
+		}
+	}
+	return -1
 }
