@@ -19,10 +19,10 @@ func readFile(path string) []byte {
 }
 
 func convertToInteger(strExpenses []string) []int64 {
-	var expenses []int64
-	for i := 0; i < len(strExpenses); i++ {
-		n, _ := strconv.ParseInt(strExpenses[i], 0, 64)
-		expenses = append(expenses, n)
+	expenses := make([]int64, len(strExpenses))
+	for i, s := range strExpenses {
+		n, _ := strconv.ParseInt(s, 0, 64)
+		expenses[i] = n
 	}
 	return expenses
 }
