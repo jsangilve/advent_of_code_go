@@ -33,9 +33,8 @@ func Part1() int64 {
 	expensesStr := strings.Split(string(content), "\n")
 	expenses := convertToInteger(expensesStr)
 
-	for i := 0; i < len(expenses); i++ {
+	for i, valueA := range expenses {
 		for j := i + 1; j < len(expenses); j++ {
-			valueA := expenses[i]
 			valueB := expenses[j]
 			if valueA+valueB == 2020 {
 				fmt.Println(valueA, valueB)
