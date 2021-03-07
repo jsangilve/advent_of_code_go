@@ -53,14 +53,16 @@ func Part1() int64 {
 // Part2 solution to Day 1 part 2
 func Part2() int64 {
 	expenses := readExpenses()
+	numExpenses := len(expenses)
 
-	for i, valueA := range expenses {
-		for j := i + 1; j < len(expenses); j++ {
+	for i := 0; i < numExpenses; i++ {
+		valueA := expenses[i]
+		for j := i + 1; j < numExpenses; j++ {
 			valueB := expenses[j]
-			for k := 0; k < len(expenses); k++ {
+			for k := 0; k < numExpenses; k++ {
 				valueC := expenses[k]
 				if k != j && k != i && valueA+valueB+valueC == 2020 {
-					fmt.Println(k, valueA, valueB, valueC)
+					fmt.Println(valueA, valueB, valueC)
 					return valueA * valueB * valueC
 				}
 			}
