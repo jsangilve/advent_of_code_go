@@ -1,22 +1,11 @@
 package day1
 
 import (
+	"adventofcode/utils"
 	"fmt"
-	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 )
-
-func readFile(path string) []byte {
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
-	}
-	return content
-
-}
 
 func convertToInteger(strExpenses []string) []int64 {
 	expenses := make([]int64, len(strExpenses))
@@ -28,7 +17,7 @@ func convertToInteger(strExpenses []string) []int64 {
 }
 
 func readExpenses() []int64 {
-	content := readFile("inputs/day1.txt")
+	content := utils.ReadFile("inputs/day1.txt")
 	expensesStr := strings.Split(string(content), "\n")
 	return convertToInteger(expensesStr)
 }
