@@ -2,7 +2,6 @@ package day1
 
 import (
 	"adventofcode/utils"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -30,7 +29,6 @@ func Part1() int64 {
 		for j := i + 1; j < len(expenses); j++ {
 			valueB := expenses[j]
 			if valueA+valueB == 2020 {
-				fmt.Println(valueA, valueB)
 				return valueA * valueB
 			}
 		}
@@ -51,7 +49,6 @@ func Part2() int64 {
 			for k := 0; k < numExpenses; k++ {
 				valueC := expenses[k]
 				if k != j && k != i && valueA+valueB+valueC == 2020 {
-					fmt.Println(valueA, valueB, valueC)
 					return valueA * valueB * valueC
 				}
 			}

@@ -14,5 +14,6 @@ func main() {
 	fmt.Println("Day2 part1", day2.Part1())
 	fmt.Println("Day2 part2", day2.Part2())
 
-	fmt.Println("Day3 partt1", day3.Part1())
+	fmt.Println("Day3 part1", day3.Part1())
+	fmt.Println("Day3 part2", day3.Part2())
 }
