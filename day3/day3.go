@@ -4,6 +4,7 @@ import (
 	"adventofcode/utils"
 	"fmt"
 	"strings"
+	"time"
 )
 
 func parseMap() [][]string {
@@ -52,7 +53,6 @@ func Part2WithChannels() int {
 	slopes := [][2]int{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
 	results_chan := make(chan int, len(slopes))
 	defer func() {
-		fmt.Println("Closing channel", results_chan)
 		close(results_chan)
 	}()
 
@@ -69,31 +69,39 @@ func Part2WithChannels() int {
 	return total
 }
 
-// func Part2WithChannelsV2() int {
-// 	slopes := [][2]int{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
-// 	results_chan := make(chan int, len(slopes))
-// 	defer func() {
-// 		fmt.Println("Closing channel", results_chan)
-// 		// close(results_chan)
-// 	}()
+func multi(arr []int) int {
+	result := 1
+	for _, val := range arr {
+		result *= val
+	}
+	return result
+}
 
-// 	for _, slope := range slopes {
-// 		go func(slope [2]int) {
-// 			results_chan <- countTrees(slopesMap, slope[0], slope[1])
-// 		}(slope)
-// 	}
+func Part2WithChannelsV2() int {
+	slopes := [][2]int{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
+	results_chan := make(chan int, len(slopes))
+	defer func() {
+		fmt.Println("Closing channel", results_chan)
+		close(results_chan)
+	}()
 
-// 	total := 1
-// 	for {
-// 		value, ok := <-results_chan
-// 		fmt.Println("Value", value, ok, "numOfGoroutines", runtime.NumGoroutine())
-// 		if !ok {
-// 			fmt.Println("Channel", ok)
-// 			break
-// 		}
-// 		total *= value
-// 	}
+	for _, slope := range slopes {
+		go func(slope [2]int) {
+			results_chan <- countTrees(slopesMap, slope[0], slope[1])
+		}(slope)
+	}
 
-// 	return total
+	var values []int
+	for {
+		time.Sleep(100 * time.Millisecond)
+		select {
+		case x := <-results_chan:
+			fmt.Println(x)
+			values = append(values, x)
 
-// }
+		default:
+			fmt.Printf("%v\n", values)
+			return multi(values)
+		}
+	}
+}
