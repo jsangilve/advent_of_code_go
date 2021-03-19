@@ -18,5 +18,6 @@ func main() {
 	fmt.Println("Day3 part2", day3.Part2())
 	fmt.Println("Day3 part2 with channels", day3.Part2WithChannels())
 	fmt.Println("Day3 part2 with channels v2", day3.Part2WithChannelsV2())
+	fmt.Println("Day3 part2 with channels v3", day3.Part2WithChannelsV3())
 
 }

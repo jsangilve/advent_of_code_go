@@ -69,7 +69,7 @@ func Part2WithChannels() int {
 	return total
 }
 
-func multi(arr []int) int {
+func multiply(arr []int) int {
 	result := 1
 	for _, val := range arr {
 		result *= val
@@ -81,7 +81,6 @@ func Part2WithChannelsV2() int {
 	slopes := [][2]int{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
 	results_chan := make(chan int, len(slopes))
 	defer func() {
-		fmt.Println("Closing channel", results_chan)
 		close(results_chan)
 	}()
 
@@ -93,7 +92,7 @@ func Part2WithChannelsV2() int {
 
 	var values []int
 	for {
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(200 * time.Millisecond)
 		select {
 		case x := <-results_chan:
 			fmt.Println(x)
@@ -101,7 +100,29 @@ func Part2WithChannelsV2() int {
 
 		default:
 			fmt.Printf("%v\n", values)
-			return multi(values)
+			return multiply(values)
 		}
 	}
+}
+
+func Part2WithChannelsV3() int {
+	slopes := [][2]int{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
+	results_chan := make(chan int, len(slopes))
+	defer func() {
+		close(results_chan)
+	}()
+
+	for _, slope := range slopes {
+		go func(slope [2]int) {
+			results_chan <- countTrees(slopesMap, slope[0], slope[1])
+		}(slope)
+	}
+
+	var results []int
+	for len(results) < len(slopes) {
+		value := <-results_chan
+		results = append(results, value)
+	}
+
+	return multiply(results)
 }
